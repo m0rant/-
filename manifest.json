@@ -10,16 +10,22 @@
   "lang": "zh-CN",
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%234CAF50'/><circle cx='50' cy='50' r='35' fill='none' stroke='white' stroke-width='6'/><polygon points='50,28 50,50 68,58' fill='white'/></svg>",
+      "src": "icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%234CAF50'/><circle cx='50' cy='50' r='35' fill='none' stroke='white' stroke-width='6'/><polygon points='50,28 50,50 68,58' fill='white'/></svg>",
+      "src": "icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }

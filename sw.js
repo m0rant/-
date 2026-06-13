@@ -12,7 +12,9 @@ const CACHE_FILES = [
   '/js/calendar.js',
   '/js/reminder.js',
   '/js/app.js',
-  '/manifest.json'
+  '/manifest.json',
+  '/icon-192x192.png',
+  '/icon-512x512.png'
 ];
 
 // 安装：预缓存所有文件
@@ -51,8 +53,7 @@ self.addEventListener('message', event => {
       tag: data.tag || 'study-timer',
       requireInteraction: true,
       silent: true,
-      icon: 'data:image/svg+xml,' +
-        encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#4CAF50"/><circle cx="50" cy="50" r="32" fill="none" stroke="white" stroke-width="5"/><line x1="50" y1="50" x2="50" y2="28" stroke="white" stroke-width="4" stroke-linecap="round"/><line x1="50" y1="50" x2="62" y2="58" stroke="white" stroke-width="4" stroke-linecap="round"/></svg>')
+      icon: '/icon-192x192.png'
     }).then(notification => {
       if (data.id) {
         activeNotifications.set(data.id, notification);
