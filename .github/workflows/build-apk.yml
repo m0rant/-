@@ -24,24 +24,6 @@ jobs:
       - name: 配置 Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: 生成签名密钥
-        run: |
-          keytool -genkey -v \
-            -keystore release.keystore \
-            -alias studytimer \
-            -keyalg RSA -keysize 2048 -validity 10000 \
-            -storepass android123 -keypass android123 \
-            -dname "CN=Study Timer, OU=Dev, O=Personal, L=Beijing, ST=Beijing, C=CN"
-
-      - name: 获取 SHA256 指纹
-        id: fingerprint
-        run: |
-          SHA256=$(keytool -list -v -keystore release.keystore \
-            -storepass android123 -alias studytimer | \
-            grep SHA256 | head -1 | awk '{print $2}')
-          echo "sha256=$SHA256" >> $GITHUB_OUTPUT
-          echo "Fingerprint: $SHA256"
-
       - name: 安装依赖
         run: |
           cd $GITHUB_WORKSPACE
@@ -58,8 +40,6 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew assembleRelease
-        env:
-          ANDROID_HOME: ${{ env.ANDROID_HOME }}
 
       - name: 上传 APK
         uses: actions/upload-artifact@v4

@@ -18,7 +18,7 @@ async function main() {
 
   // 签名信息
   twaManifest.signingKey = {
-    path: path.join(workspace, 'release.keystore'),
+    path: path.join(workspace, 'release.keystore'),  // 使用仓库中的固定密钥
     alias: 'studytimer'
   };
 
