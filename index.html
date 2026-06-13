@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#4CAF50">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="description" content="简洁学习计时器">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/style.css">
+  <title>学习计时器</title>
+</head>
+<body>
+
+  <!-- ==================== 主容器 ==================== -->
+  <div class="app-container">
+
+    <!-- 顶部导航栏 -->
+    <header class="top-bar">
+      <h1 class="top-title">学习计时器</h1>
+      <button class="btn-icon" id="btnSettings" title="设置">⚙️</button>
+    </header>
+
+    <!-- ========== 页面 1：计时器 ========== -->
+    <main class="page active" id="pageTimer">
+      <div class="timer-section">
+        <!-- 圆形进度环 -->
+        <div class="timer-ring-container">
+          <svg class="timer-ring" viewBox="0 0 200 200">
+            <circle class="ring-bg" cx="100" cy="100" r="90" />
+            <circle class="ring-progress" id="ringProgress" cx="100" cy="100" r="90" />
+          </svg>
+          <div class="timer-display" id="timerDisplay">00:00:00</div>
+        </div>
+
+        <!-- 开始/结束按钮 -->
+        <button class="btn-timer" id="btnTimer">
+          <span class="btn-timer-text" id="btnTimerText">开始学习</span>
+        </button>
+
+        <!-- 今日已学 -->
+        <div class="today-info" id="todayInfo">
+          <span class="today-label">今日已学</span>
+          <span class="today-time" id="todayTime">0 分钟</span>
+        </div>
+      </div>
+    </main>
+
+    <!-- ========== 页面 2：统计 ========== -->
+    <main class="page" id="pageStats">
+      <div class="stats-section">
+        <!-- 统计卡片 -->
+        <div class="stats-cards">
+          <div class="stat-card">
+            <div class="stat-value" id="statTotal">0 小时</div>
+            <div class="stat-label">累计总时长</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="statDaily">0 分钟</div>
+            <div class="stat-label">日均学习</div>
+          </div>
+        </div>
+
+        <!-- 本周柱状图 -->
+        <div class="chart-card">
+          <h3 class="section-title">本周学习</h3>
+          <div class="chart-bars" id="chartBars">
+            <!-- 动态生成 7 天的柱子 -->
+          </div>
+          <div class="chart-labels" id="chartLabels">
+            <!-- 动态生成 7 天的标签 -->
+          </div>
+        </div>
+
+        <!-- 最近记录 -->
+        <div class="recent-card">
+          <h3 class="section-title">最近记录</h3>
+          <div class="recent-list" id="recentList">
+            <div class="empty-hint">还没有学习记录，快去开始吧 ✨</div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ========== 页面 3：日历 ========== -->
+    <main class="page" id="pageCalendar">
+      <div class="calendar-section">
+        <!-- 月份切换 -->
+        <div class="calendar-header">
+          <button class="btn-month" id="btnPrevMonth">◀</button>
+          <span class="month-label" id="monthLabel">2026年 6月</span>
+          <button class="btn-month" id="btnNextMonth">▶</button>
+        </div>
+
+        <!-- 星期表头 -->
+        <div class="calendar-weekdays">
+          <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+        </div>
+
+        <!-- 日期网格 -->
+        <div class="calendar-grid" id="calendarGrid">
+          <!-- 动态生成 -->
+        </div>
+
+        <!-- 图例 -->
+        <div class="calendar-legend">
+          <span class="legend-dot"></span> 有学习记录
+        </div>
+      </div>
+    </main>
+
+    <!-- ========== 底部导航栏 ========== -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-page="pageTimer">
+        <span class="nav-icon">⏱</span>
+        <span class="nav-label">计时</span>
+      </button>
+      <button class="nav-item" data-page="pageStats">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">统计</span>
+      </button>
+      <button class="nav-item" data-page="pageCalendar">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">日历</span>
+      </button>
+    </nav>
+
+    <!-- ========== 日期详情弹窗 ========== -->
+    <div class="modal-overlay" id="dayModal">
+      <div class="modal-content">
+        <h3 id="modalDate"></h3>
+        <div class="modal-time" id="modalTime"></div>
+        <div class="modal-sessions" id="modalSessions"></div>
+        <button class="btn-close" id="btnCloseModal">关闭</button>
+      </div>
+    </div>
+
+    <!-- ========== 设置弹窗 ========== -->
+    <div class="modal-overlay" id="settingsModal">
+      <div class="modal-content settings-content">
+        <h3>⚙️ 设置</h3>
+
+        <div class="setting-item">
+          <span class="setting-label">每日提醒</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="reminderToggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item" id="reminderTimeItem">
+          <span class="setting-label">提醒时间</span>
+          <input type="time" class="time-input" id="reminderTime" value="20:00">
+        </div>
+
+        <hr class="setting-divider">
+
+        <div class="setting-item setting-danger">
+          <span class="setting-label">清除所有数据</span>
+          <button class="btn-danger" id="btnClearData">清除</button>
+        </div>
+
+        <button class="btn-close" id="btnCloseSettings">关闭</button>
+      </div>
+    </div>
+
+    <!-- ========== 清除数据确认弹窗 ========== -->
+    <div class="modal-overlay" id="confirmModal">
+      <div class="modal-content confirm-content">
+        <h3>⚠️ 确认清除</h3>
+        <p>这将删除所有学习记录，此操作不可恢复。</p>
+        <div class="confirm-btns">
+          <button class="btn-cancel" id="btnCancelClear">取消</button>
+          <button class="btn-confirm" id="btnConfirmClear">确认清除</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== JS 模块 ==================== -->
+  <script src="js/storage.js"></script>
+  <script src="js/timer.js"></script>
+  <script src="js/stats.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/reminder.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
