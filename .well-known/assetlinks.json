@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.m0rant.studytimer",
+    "sha256_cert_fingerprints": [
+      "D7:88:02:09:D3:86:F7:62:81:85:AE:E6:99:29:7A:A4:23:5E:26:58:02:A7:F2:D4:18:E2:98:D6:84:66:C5:34"
+    ]
+  }
+}]

@@ -9,6 +9,11 @@ desktop.ini
 *.swp
 *.swo
 
+# 依赖
+node_modules/
+apk-build/
+twa-project/
+
 # 临时文件
 *.tmp
 *.log
